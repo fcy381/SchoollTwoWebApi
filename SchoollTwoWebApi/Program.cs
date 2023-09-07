@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using SchoollTwoWebApi.Data;
+using SchoollTwoWebApi.Entities;
+using SchoollTwoWebApi.Models.Course;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MyDataContext>(opt => opt.UseInMemoryDatabase("Schooll"));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -16,29 +24,31 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.MapPost("/Course/", async ( CoursePostDTO coursePostDTO, MyDataContext _db) => 
+{ 
+
+});
+
+app.MapGet("/Course/{id}", async (int id, MyDataContext _db) => 
+{ 
+    
+});
+
+app.MapGet("/Courses", async (MyDataContext _db) => 
+{ 
+
+});
+
+app.MapPut("/Course/{id}", async (int id, MyDataContext _db) => 
+{ 
+
+});
+
+app.MapDelete("/Course/{id}", async (int id, MyDataContext _db) => 
+{ 
+
+});
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
